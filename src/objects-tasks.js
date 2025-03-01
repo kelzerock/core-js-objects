@@ -331,6 +331,7 @@ function sortCitiesArray(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
+  throw new Error('Not implemented');
   const result = new Map();
   array.forEach((item) => {
     const key = keySelector(item);
