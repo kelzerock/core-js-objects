@@ -160,25 +160,26 @@ function makeWord(lettersObject) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(queue) {
-  const costTicket = 25;
-  const sellerBank = [];
-  const check = [];
-  queue.forEach((el) => {
-    if (el === costTicket) {
-      sellerBank.push(el);
-    } else {
-      let change = 0;
-      const needChange = el - costTicket;
-      while (change !== needChange && sellerBank.length > 0) {
-        change += sellerBank.pop();
-      }
-      if (needChange !== change) {
-        check.push(false);
-      }
-    }
-  });
-  return !check.length;
+function sellTickets(/* queue */) {
+  throw new Error('Not implemented');
+  // const costTicket = 25;
+  // const sellerBank = [];
+  // const check = [];
+  // queue.forEach((el) => {
+  //   if (el === costTicket) {
+  //     sellerBank.push(el);
+  //   } else {
+  //     let change = 0;
+  //     const needChange = el - costTicket;
+  //     while (change !== needChange && sellerBank.length > 0) {
+  //       change += sellerBank.pop();
+  //     }
+  //     if (needChange !== change) {
+  //       check.push(false);
+  //     }
+  //   }
+  // });
+  // return !check.length;
 }
 
 /**
@@ -194,13 +195,12 @@ function sellTickets(queue) {
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
-  // const rectangle = {};
-  // rectangle.width = width;
-  // rectangle.height = height;
-  // rectangle.getArea = () => rectangle.width * rectangle.height;
-  // return rectangle;
+function Rectangle(width, height) {
+  const rectangle = {};
+  rectangle.width = width;
+  rectangle.height = height;
+  rectangle.getArea = () => rectangle.width * rectangle.height;
+  return rectangle;
 }
 
 /**
