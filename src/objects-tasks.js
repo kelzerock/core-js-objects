@@ -194,12 +194,13 @@ function sellTickets(queue) {
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(width, height) {
-  const rectangle = {};
-  rectangle.width = width;
-  rectangle.height = height;
-  rectangle.getArea = () => rectangle.width * rectangle.height;
-  return rectangle;
+function Rectangle(/* width, height */) {
+  throw new Error('Not implemented');
+  // const rectangle = {};
+  // rectangle.width = width;
+  // rectangle.height = height;
+  // rectangle.getArea = () => rectangle.width * rectangle.height;
+  // return rectangle;
 }
 
 /**
@@ -212,32 +213,31 @@ function Rectangle(width, height) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
-  // let result = '';
-  // const convert = (el) => {
-  //   if (typeof el === 'number') return el;
-  //   if (typeof el === 'string') return `"${el}"`;
-  //   return el;
-  // };
+function getJSON(obj) {
+  let result = '';
+  const convert = (el) => {
+    if (typeof el === 'number') return el;
+    if (typeof el === 'string') return `"${el}"`;
+    return el;
+  };
 
-  // if (Array.isArray(obj)) {
-  //   result += '[';
-  //   obj.forEach((el, index) => {
-  //     const lastEl = index === obj.length - 1 ? '' : ',';
-  //     result += convert(el) + lastEl;
-  //   });
-  //   result += ']';
-  // } else if (typeof obj === 'object') {
-  //   const arrObj = Object.entries(obj);
-  //   result += '{';
-  //   arrObj.forEach(([key, value], index) => {
-  //     const lastEl = index === arrObj.length - 1 ? '' : ',';
-  //     result += `${convert(key)}:${convert(value)}${lastEl}`;
-  //   });
-  //   result += '}';
-  // }
-  // return result;
+  if (Array.isArray(obj)) {
+    result += '[';
+    obj.forEach((el, index) => {
+      const lastEl = index === obj.length - 1 ? '' : ',';
+      result += convert(el) + lastEl;
+    });
+    result += ']';
+  } else if (typeof obj === 'object') {
+    const arrObj = Object.entries(obj);
+    result += '{';
+    arrObj.forEach(([key, value], index) => {
+      const lastEl = index === arrObj.length - 1 ? '' : ',';
+      result += `${convert(key)}:${convert(value)}${lastEl}`;
+    });
+    result += '}';
+  }
+  return result;
 }
 
 /**
