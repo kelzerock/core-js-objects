@@ -212,31 +212,32 @@ function Rectangle(width, height) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(obj) {
-  let result = '';
-  const convert = (el) => {
-    if (typeof el === 'number') return el;
-    if (typeof el === 'string') return `"${el}"`;
-    return el;
-  };
+function getJSON(/* obj */) {
+  throw new Error('Not implemented');
+  // let result = '';
+  // const convert = (el) => {
+  //   if (typeof el === 'number') return el;
+  //   if (typeof el === 'string') return `"${el}"`;
+  //   return el;
+  // };
 
-  if (Array.isArray(obj)) {
-    result += '[';
-    obj.forEach((el, index) => {
-      const lastEl = index === obj.length - 1 ? '' : ',';
-      result += convert(el) + lastEl;
-    });
-    result += ']';
-  } else if (typeof obj === 'object') {
-    const arrObj = Object.entries(obj);
-    result += '{';
-    arrObj.forEach(([key, value], index) => {
-      const lastEl = index === arrObj.length - 1 ? '' : ',';
-      result += `${convert(key)}:${convert(value)}${lastEl}`;
-    });
-    result += '}';
-  }
-  return result;
+  // if (Array.isArray(obj)) {
+  //   result += '[';
+  //   obj.forEach((el, index) => {
+  //     const lastEl = index === obj.length - 1 ? '' : ',';
+  //     result += convert(el) + lastEl;
+  //   });
+  //   result += ']';
+  // } else if (typeof obj === 'object') {
+  //   const arrObj = Object.entries(obj);
+  //   result += '{';
+  //   arrObj.forEach(([key, value], index) => {
+  //     const lastEl = index === arrObj.length - 1 ? '' : ',';
+  //     result += `${convert(key)}:${convert(value)}${lastEl}`;
+  //   });
+  //   result += '}';
+  // }
+  // return result;
 }
 
 /**
@@ -250,18 +251,17 @@ function getJSON(obj) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
-  // const result = {};
-  // const arrInfo = json.slice(1, json.length - 1);
-  // arrInfo.split(',').forEach((el) => {
-  //   const elem = el.trim().split(':');
-  //   const key = elem[0].slice(1, elem[0].length - 1);
-  //   const value = +elem[1];
-  //   result[key] = value;
-  // });
-  // const NewClass = proto.constructor;
-  // return new NewClass(...Object.values(result));
+function fromJSON(proto, json) {
+  const result = {};
+  const arrInfo = json.slice(1, json.length - 1);
+  arrInfo.split(',').forEach((el) => {
+    const elem = el.trim().split(':');
+    const key = elem[0].slice(1, elem[0].length - 1);
+    const value = +elem[1];
+    result[key] = value;
+  });
+  const NewClass = proto.constructor;
+  return new NewClass(...Object.values(result));
 }
 
 /**
