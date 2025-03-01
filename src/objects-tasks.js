@@ -160,26 +160,36 @@ function makeWord(lettersObject) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
-  // const costTicket = 25;
-  // const sellerBank = [];
-  // const check = [];
-  // queue.forEach((el) => {
-  //   if (el === costTicket) {
-  //     sellerBank.push(el);
-  //   } else {
-  //     let change = 0;
-  //     const needChange = el - costTicket;
-  //     while (change !== needChange && sellerBank.length > 0) {
-  //       change += sellerBank.pop();
-  //     }
-  //     if (needChange !== change) {
-  //       check.push(false);
-  //     }
-  //   }
-  // });
-  // return !check.length;
+function sellTickets(queue) {
+  const addMoneyToBank = (amoun, bank) => {
+    bank.push(amoun);
+    bank.sort((a, b) => b - a);
+  };
+
+  const costTicket = 25;
+  let sellerBank = [];
+  let check = true;
+  queue.forEach((el) => {
+    if (el === costTicket) {
+      addMoneyToBank(el, sellerBank);
+    } else {
+      let change = 0;
+      const needChange = el - costTicket;
+      const changeIndexes = [];
+      sellerBank.forEach((item, ind) => {
+        if (item <= needChange && item + change <= needChange) {
+          change += item;
+          changeIndexes.push(ind);
+        }
+      });
+      if (change !== needChange) {
+        check = false;
+      }
+      sellerBank = sellerBank.filter((_, ind) => changeIndexes.includes(ind));
+      addMoneyToBank(el, sellerBank);
+    }
+  });
+  return check;
 }
 
 /**
