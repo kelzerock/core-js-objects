@@ -397,34 +397,84 @@ function group(array, keySelector, valueSelector) {
  *
  *  For more examples see unit tests.
  */
+const orderError =
+  'Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element';
+const elementError =
+  'Element, id and pseudo-element should not occur more then one time inside the selector';
+
+const handleError = (cond, message) => {
+  if (cond) throw new Error(message);
+};
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  element(value) {
+    handleError(this.checkElement, elementError);
+    handleError(this.order, orderError);
+    const obj = Object.create(this);
+    obj.result = this.result || '';
+    obj.result += `${value}`;
+    obj.checkElement = true;
+    obj.order = 1;
+    return obj;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    handleError(this.checkID, elementError);
+    handleError(this.order && this.order > 2, orderError);
+    const obj = Object.create(this);
+    obj.result = this.result || '';
+    obj.result += `#${value}`;
+    obj.checkID = true;
+    obj.order = 2;
+    return obj;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    handleError(this.order && this.order > 3, orderError);
+    const obj = Object.create(this);
+    obj.result = this.result || '';
+    obj.result += `.${value}`;
+    obj.order = 3;
+    return obj;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    handleError(this.order && this.order > 4, orderError);
+    const obj = Object.create(this);
+    obj.result = this.result || '';
+    obj.result += `[${value}]`;
+    obj.order = 4;
+    return obj;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    handleError(this.order && this.order > 5, orderError);
+    const obj = Object.create(this);
+    obj.result = this.result || '';
+    obj.result += `:${value}`;
+    obj.order = 5;
+    return obj;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    handleError(this.checkPseudoElement, elementError);
+    const obj = Object.create(this);
+    obj.result = this.result || '';
+    obj.result += `::${value}`;
+    obj.checkPseudoElement = true;
+    obj.order = 6;
+    return obj;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    const combinedResult = `${selector1.stringify()} ${combinator} ${selector2.stringify()}`;
+    const obj = Object.create(this);
+    obj.result = combinedResult;
+    return obj;
+  },
+
+  stringify() {
+    return this.result;
   },
 };
 
