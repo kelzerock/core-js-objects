@@ -185,7 +185,7 @@ function sellTickets(queue) {
       if (change !== needChange) {
         check = false;
       }
-      sellerBank = sellerBank.filter((_, ind) => changeIndexes.includes(ind));
+      sellerBank = sellerBank.filter((_, ind) => !changeIndexes.includes(ind));
       addMoneyToBank(el, sellerBank);
     }
   });
