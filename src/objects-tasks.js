@@ -250,17 +250,18 @@ function getJSON(obj) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(proto, json) {
-  const result = {};
-  const arrInfo = json.slice(1, json.length - 1);
-  arrInfo.split(',').forEach((el) => {
-    const elem = el.trim().split(':');
-    const key = elem[0].slice(1, elem[0].length - 1);
-    const value = +elem[1];
-    result[key] = value;
-  });
-  const NewClass = proto.constructor;
-  return new NewClass(...Object.values(result));
+function fromJSON(/* proto, json */) {
+  throw new Error('Not implemented');
+  // const result = {};
+  // const arrInfo = json.slice(1, json.length - 1);
+  // arrInfo.split(',').forEach((el) => {
+  //   const elem = el.trim().split(':');
+  //   const key = elem[0].slice(1, elem[0].length - 1);
+  //   const value = +elem[1];
+  //   result[key] = value;
+  // });
+  // const NewClass = proto.constructor;
+  // return new NewClass(...Object.values(result));
 }
 
 /**
@@ -289,16 +290,15 @@ function fromJSON(proto, json) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
-  // return arr.sort((a, b) => {
-  //   if (a.country > b.country) return 1;
-  //   if (a.country < b.country) return -1;
-  //   if (a.country === b.country) {
-  //     if (a.city > b.city) return 1;
-  //   }
-  //   return -1;
-  // });
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => {
+    if (a.country > b.country) return 1;
+    if (a.country < b.country) return -1;
+    if (a.country === b.country) {
+      if (a.city > b.city) return 1;
+    }
+    return -1;
+  });
 }
 
 /**
