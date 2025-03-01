@@ -332,17 +332,6 @@ function sortCitiesArray(arr) {
  */
 function group(array, keySelector, valueSelector) {
   throw new Error('Not implemented');
-  const result = new Map();
-  array.forEach((item) => {
-    const key = keySelector(item);
-    const value = valueSelector(item);
-    if (result.has(key)) {
-      result.get(key).push(value);
-    } else {
-      result.set(key, [value]);
-    }
-  });
-  return result;
 }
 
 /**
